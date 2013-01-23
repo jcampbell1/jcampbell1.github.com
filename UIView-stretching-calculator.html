@@ -1,0 +1,86 @@
+---
+layout: default
+title: Calculate Stretching Parameters for Interface Builder
+js: |
+  <script>
+  $(function(){
+    function inputs() {
+      return {
+        width: parseInt( $('#w').val() ),
+        height: parseInt( $('#h').val() ),
+        top: parseFloat( $('#t').val() ),
+        left: parseFloat( $('#l').val() ),
+        bottom: parseFloat( $('#b').val() ),
+        right: parseFloat( $('#r').val() ),
+      }
+    }
+    function calc(){
+      var i = inputs();
+      return {
+        X: i.left / i.width,
+        Y: i.top / i.height,
+        IBWidth: (i.width - i.left - i.right)/i.width,
+        IBHeight: (i.height - i.top - i.bottom)/i.height 
+      }
+    }
+    function setOutput(v) {
+      $.each(v,function(k,v){ $('#'+k).val(v) });
+    }
+    $('#input input').change(function() {
+      setOutput(calc());
+    }).eq(0).change();
+  });
+  </script>
+css: |
+  <style>
+    .inner {width:900px;}
+    label {display:block; margin-bottom:-5px; font-size:90%;}
+    input[type=number] {width: 70px; font-size: 110%}
+    input[type=text] {width:140px;}
+    .sb {width:80px;float:left;padding-top:4px;}
+    .lb {width:180px;float:left;padding-top:4px;}
+    #input {width:40%;float:left;}
+    #output {width:40%;float:left;}
+  </style>
+---
+
+<h1>Interface Builder Streching Parameters Calculator</h1>
+
+<p>In XCode's Interface Builder, there is a section for UI View stretching, which takes 4 parameters: X,Y,Width,Height.
+  These parameters are associated with the UIView property <a href="http://developer.apple.com/library/ios/#documentation/uikit/reference/uiview_class/DeprecationAppendix/AppendixADeprecatedAPI.html#//apple_ref/occ/instp/UIView/contentStretch">contentStretch</a>  The problem is that content stretch is impossible to use without a calculator, thus the little javascript calculator below.
+</p>
+
+<div class="clearfix">
+<div id="input">
+  <h3>Input</h3>
+  <h4>Image Size</h4>
+  <div class="field-group clearfix">
+    <div class="sb"><label for="w">Width</label><input type="number" id="w" value=100 min=1 /></div>
+    <div class="sb"><label for="h">Height</label><input type="number" id="h" value=30 min=1 /></div>
+  </div>
+
+  <h4 style="padding-top:15px">Edge Insets</h4>
+  <div class="field-group clearfix">
+    <div class="sb"><label for="t">Top</label><input type="number" id="t" value=8 min=0 /></div>
+    <div class="sb"><label for="l">Left</label><input type="number" id="l" value=3 min=0 /></div>
+    <div class="sb"><label for="b">Bottom</label><input type="number" id="b" value=10 min=0 /></div>
+    <div class="sb"><label for="r">Right</label><input type="number" id="r" value=3 min=0 /></div>
+  </div>
+  </div>
+<div id="output">
+  <h3>Output</h3>
+  <h4>Stretching for Interface Builder</h4>
+  <div class="field-group clearfix">
+    <div class="lb"><label for="X">X</label><input type="text" id="X" value=0 /></div>
+    <div class="lb"><label for="Y">Y</label><input type="text" id="Y" value=0 /></div>
+  </div>
+  <div class="field-group clearfix">
+    <div class="lb"><label for="IBWidth">Width</label><input type="text" id="IBWidth" value=1 /></div>
+    <div class="lb"><label for="IBHeight">Height</label><input type="text" id="IBHeight" value=1 /></div>
+  </div>
+</div>
+
+</div>
+
+<h3 style="padding-top:30px">Example Streching / Edge Inset Model</h3>
+<img src="images/streching-model.png" width=850 h=276 />
