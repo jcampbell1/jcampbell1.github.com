@@ -84,3 +84,14 @@ css: |
 
 <h3 style="padding-top:30px">Example Streching / Edge Inset Model</h3>
 <img src="images/streching-model.png" width=850 h=276 />
+
+<br><br>
+<p>
+- - - 
+In all honesty, I am not sure magic numbers in interface builder is really better than:
+<pre><code>{% highlight objc %}
+- (void)awakeFromNib
+{
+    self.someImageView.image = [self.someImageView.image resizableImageWithCapInsets:UIEdgeInsetsMake(8,3,10,3)];
+}
+{% endhighlight %}</code></pre>
