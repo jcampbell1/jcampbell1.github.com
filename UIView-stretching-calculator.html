@@ -26,6 +26,24 @@ js: |
     function setOutput(v) {
       $.each(v,function(k,v){ $('#'+k).val(v) });
     }
+    $('#xb,#xr,#r,#b,#w,#h').change(function(){
+      var id = $(this).attr('id');
+      var size = inputs();
+      if(id == 'xb')
+        $('#b').val( size.height - parseInt(this.value) );
+      else if (id == 'xr')
+        $('#r').val( size.width - parseInt(this.value) );
+      else if (id == 'b') 
+        $('#xb').val( size.height - parseInt(this.value) );
+      else if (id == 'r')
+        $('#xr').val( size.width - parseInt(this.value) );
+      else if (id = 'h')
+        $('#xb').val( size.height - size.bottom );
+      else if (id = 'w')
+        $('#xr').val( size.width - size.right );
+    });
+    $('#xt,#t').change(function(){$('#xt,#t').val(this.value)});
+    $('#xl,#l').change(function(){$('#xl,#l').val(this.value)});
     $('#input input').change(function() {
       setOutput(calc());
     }).eq(0).change();
@@ -59,12 +77,19 @@ css: |
     <div class="sb"><label for="h">Height</label><input type="number" id="h" value=30 min=1 /></div>
   </div>
 
-  <h4 style="padding-top:15px">Edge Insets</h4>
+  <h4 style="padding-top:15px">Edge Insets (css style)</h4>
   <div class="field-group clearfix">
     <div class="sb"><label for="t">Top</label><input type="number" id="t" value=8 min=0 /></div>
     <div class="sb"><label for="l">Left</label><input type="number" id="l" value=3 min=0 /></div>
     <div class="sb"><label for="b">Bottom</label><input type="number" id="b" value=10 min=0 /></div>
     <div class="sb"><label for="r">Right</label><input type="number" id="r" value=3 min=0 /></div>
+  </div>
+  <h4 style="padding-top:15px">Edge Insets (apple style)</h4>
+  <div class="field-group clearfix">
+    <div class="sb"><label for="t">Top</label><input type="number" id="xt" value=8 min=0 /></div>
+    <div class="sb"><label for="l">Left</label><input type="number" id="xl" value=3 min=0 /></div>
+    <div class="sb"><label for="b">Bottom</label><input type="number" id="xb" value=20 min=0 /></div>
+    <div class="sb"><label for="r">Right</label><input type="number" id="xr" value=97 min=0 /></div>
   </div>
   </div>
 <div id="output">
@@ -92,6 +117,6 @@ In all honesty, I am not sure magic numbers in interface builder is really bette
 <pre><code>{% highlight objc %}
 - (void)awakeFromNib
 {
-    self.someImageView.image = [self.someImageView.image resizableImageWithCapInsets:UIEdgeInsetsMake(8,3,10,3)];
+    self.someImageView.image = [self.someImageView.image resizableImageWithCapInsets:UIEdgeInsetsMake(8,3,20,97)];
 }
 {% endhighlight %}</code></pre>
